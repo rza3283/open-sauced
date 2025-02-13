@@ -31,13 +31,13 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS_REGION: MY_AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: MY_ECR_REPOSITORY           # set this to your Amazon ECR repository name
-  ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
+  AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: demoECR          # set this to your Amazon ECR repository name
+  ECS_SERVICE: demoECR123                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: demoECR4567                 # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: ACTIVE # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
+  CONTAINER_NAME: demoECR456722           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
@@ -56,9 +56,9 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AKIA2RP6H5H6OQJOUSRD }}
+        aws-secret-access-key: ${{ secrets.GoUkSWNnOLOP676s/GoWRAVOlOVPR4+n7WJCXbvP }}
+        aws-region: ${{ env.us-east-1 }}
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -81,14 +81,14 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-        container-name: ${{ env.CONTAINER_NAME }}
+        task-definition: ${{ env.ACTIVE }}
+        container-name: ${{ env.demoECR456722 }}
         image: ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: ${{ env.ECS_SERVICE }}
-        cluster: ${{ env.ECS_CLUSTER }}
+        service: ${{ env.demoECR123 }}
+        cluster: ${{ env.demoECR4567 }}
         wait-for-service-stability: true
